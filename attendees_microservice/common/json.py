@@ -1,6 +1,8 @@
 from json import JSONEncoder
 from datetime import datetime
 from django.db.models import QuerySet
+from attendees.models import AccountVO
+
 
 class QuerySetEncoder(JSONEncoder):
     def default(self, o):
@@ -35,22 +37,23 @@ class ModelEncoder(DateEncoder, QuerySetEncoder, JSONEncoder):
                     encoder = self.encoders[property]
                     value = encoder.default(value)
                 d[property] = value
-            d.update(self.get_extra_date(o))
+            d.update(self.get_extra_data(o))
             return d
         else:
             return super().default(o)
 
-    def get_extra_date(self, o):
+    def get_extra_data(self, o):
         return {}
-        #   if the object to decode is the same class as what's in the
-        #   model property, then
-        #     * create an empty dictionary that will hold the property names
-        #       as keys and the property values as values
-        #     * for each name in the properties list
-        #         * get the value of that property from the model instance
-        #           given just the property name
-        #         * put it into the dictionary with that property name as
-        #           the key
-        #     * return the dictionary
-        #   otherwise,
-        #       return super().default(o)  # From the documentation
+        # count = len(AccountVO.objects.filter(email = o.email))
+        # if count > 0:
+        #     return {
+        #         "has_account": True,
+        #     }
+        # else:
+        #     return {
+        #         "has_account": False,
+        #     }
+
+    # not sure if the has account thing is really meant to be in here or not
+    # but everything is still working and I don't mind having the extra
+    # information in the list attendees

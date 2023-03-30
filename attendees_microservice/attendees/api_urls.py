@@ -9,5 +9,5 @@ urlpatterns = [
         api_list_attendees,
         name="api_list_attendees",
     ),
-    path("attendees/<int:pk>/", api_show_attendee, name="api_show_attendee"),
+    path("attendees/<int:id>/", api_show_attendee, name="api_show_attendee"),
 ]

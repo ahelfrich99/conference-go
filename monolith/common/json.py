@@ -35,12 +35,12 @@ class ModelEncoder(DateEncoder, QuerySetEncoder, JSONEncoder):
                     encoder = self.encoders[property]
                     value = encoder.default(value)
                 d[property] = value
-            d.update(self.get_extra_date(o))
+            d.update(self.get_extra_data(o))
             return d
         else:
             return super().default(o)
 
-    def get_extra_date(self, o):
+    def get_extra_data(self, o):
         return {}
         #   if the object to decode is the same class as what's in the
         #   model property, then
